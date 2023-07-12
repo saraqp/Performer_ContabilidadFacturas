@@ -1,14 +1,10 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
-    <x:Property Name="in_dt_exInf" Type="InArgument(sd:DataTable)" />
-    <x:Property Name="in_notFirstTime" Type="InArgument(x:Boolean)" />
-    <x:Property Name="in_password" Type="InArgument(ss:SecureString)" />
-    <x:Property Name="in_userName" Type="InArgument(x:String)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
-  <sap:VirtualizedContainerService.HintSize>1103,2015</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1798,2195</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -35,6 +31,11 @@
       <x:String>System.Xml.Serialization</x:String>
       <x:String>System.Reflection</x:String>
       <x:String>System.Security</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -92,12 +93,20 @@
       <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
       <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
       <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="552,1950" sap2010:WorkflowViewState.IdRef="Sequence_2">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="536,2130" sap2010:WorkflowViewState.IdRef="Sequence_2">
     <Sequence.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="dt_Data" />
       <Variable x:TypeArguments="x:Double" Name="total" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_exInf" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -105,80 +114,93 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="510,141" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info">
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="494,141" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info">
       <ui:LogMessage.Message>
         <InArgument x:TypeArguments="x:Object">
           <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_1">"Started Process"</CSharpValue>
         </InArgument>
       </ui:LogMessage.Message>
     </ui:LogMessage>
-    <ui:Comment DisplayName="Comment (placeholder)" sap:VirtualizedContainerService.HintSize="510,56" sap2010:WorkflowViewState.IdRef="Comment_1" Text="//  Invoke steps of the process" />
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="510,141" sap2010:WorkflowViewState.IdRef="LogMessage_2">
-      <ui:LogMessage.Level>
-        <InArgument x:TypeArguments="ui:LogLevel">
-          <CSharpValue x:TypeArguments="ui:LogLevel" sap2010:WorkflowViewState.IdRef="CSharpValue`1_21">UiPath.Core.Activities.LogLevel.Warn</CSharpValue>
+    <ui:Comment DisplayName="Comment (placeholder)" sap:VirtualizedContainerService.HintSize="494,56" sap2010:WorkflowViewState.IdRef="Comment_1" Text="//  Invoke steps of the process" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="GetExceptionsExcelData.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="494,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="GetExceptionsExcelData.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_exceptionsExcelPath">
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_29">in_Config["PathExceptionsFile"].ToString()</CSharpValue>
         </InArgument>
-      </ui:LogMessage.Level>
-      <ui:LogMessage.Message>
-        <InArgument x:TypeArguments="x:Object">
-          <CSharpValue x:TypeArguments="x:Object" sap2010:WorkflowViewState.IdRef="CSharpValue`1_22">in_notFirstTime</CSharpValue>
-        </InArgument>
-      </ui:LogMessage.Message>
-    </ui:LogMessage>
-    <If sap:VirtualizedContainerService.HintSize="510,792" sap2010:WorkflowViewState.IdRef="If_1">
-      <If.Condition>
-        <InArgument x:TypeArguments="x:Boolean">
-          <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_17">!in_notFirstTime</CSharpValue>
-        </InArgument>
-      </If.Condition>
-      <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="476,610" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dtEx">
+          <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_11">dt_exInf</CSharpReference>
+        </OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <uix:NCheckState DisplayName="Check App State 'Login'" EnableIfNotExists="False" sap:VirtualizedContainerService.HintSize="494,885" sap2010:WorkflowViewState.IdRef="NCheckState_2" Timeout="2" Version="V3">
+      <uix:NCheckState.IfExists>
+        <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="450,668" sap2010:WorkflowViewState.IdRef="Sequence_7">
+          <Sequence.Variables>
+            <Variable x:TypeArguments="x:String" Name="userName" />
+            <Variable x:TypeArguments="ss:SecureString" Name="password" />
+          </Sequence.Variables>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:Comment sap:VirtualizedContainerService.HintSize="434,94" sap2010:WorkflowViewState.IdRef="Comment_2" Text="Solo la primera vez resetea los datos de test de la página, obtiene las credenciales del Asset  y se loguea" />
-          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Login.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="434,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Login.xaml">
+          <ui:Comment sap:VirtualizedContainerService.HintSize="388,94" sap2010:WorkflowViewState.IdRef="Comment_3" Text="// Si se encuentra en la ventana de hacer Login,obtiene, las credenciales, inicia sesión y restablece los datos de prueba" />
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Get_Credentials.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="Get_Credentials.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <OutArgument x:TypeArguments="ss:SecureString" x:Key="out_password">
+                <CSharpReference x:TypeArguments="ss:SecureString" sap2010:WorkflowViewState.IdRef="CSharpReference`1_9">password</CSharpReference>
+              </OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_userName">
+                <CSharpReference x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpReference`1_8">userName</CSharpReference>
+              </OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Login.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Login.xaml">
             <ui:InvokeWorkflowFile.Arguments>
               <InArgument x:TypeArguments="x:String" x:Key="in_userName">
-                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_20">in_userName</CSharpValue>
+                <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_26">userName</CSharpValue>
               </InArgument>
               <InArgument x:TypeArguments="ss:SecureString" x:Key="in_password">
-                <CSharpValue x:TypeArguments="ss:SecureString" sap2010:WorkflowViewState.IdRef="CSharpValue`1_19">in_password</CSharpValue>
+                <CSharpValue x:TypeArguments="ss:SecureString" sap2010:WorkflowViewState.IdRef="CSharpValue`1_25">password</CSharpValue>
               </InArgument>
               <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
                 <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_13">in_Config</CSharpValue>
               </InArgument>
               <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_exInf">
-                <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_18">in_dt_exInf</CSharpValue>
+                <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_30">dt_exInf</CSharpValue>
               </InArgument>
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
-          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Reset_test_data.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="434,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="Reset_test_data.xaml">
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Reset_test_data.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="Reset_test_data.xaml">
             <ui:InvokeWorkflowFile.Arguments>
               <InArgument x:TypeArguments="x:String" x:Key="in_URL">
                 <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_16">in_Config["URL_ResetData"].ToString()</CSharpValue>
               </InArgument>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_36">in_Config</CSharpValue>
+              </InArgument>
+              <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_exInf">
+                <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_35">dt_exInf</CSharpValue>
+              </InArgument>
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
-          <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_2">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:Boolean">
-                <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_5">in_notFirstTime</CSharpReference>
-              </OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
-            </Assign.Value>
-          </Assign>
         </Sequence>
-      </If.Then>
-      <If.Else>
-        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4" />
-      </If.Else>
-    </If>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Search_Vendor_Invoice.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="510,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Search_Vendor_Invoice.xaml">
+      </uix:NCheckState.IfExists>
+      <uix:NCheckState.IfNotExists>
+        <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="450,105" sap2010:WorkflowViewState.IdRef="Sequence_8">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </uix:NCheckState.IfNotExists>
+      <uix:NCheckState.Target>
+        <uix:TargetAnchorable BrowserURL="https://acme-test.uipath.com/login" CvTextArgument="Login" CvType="Text" DesignTimeRectangle="125, 170, 940, 50" DesignTimeScaleFactor="1" ElementType="Text" FriendlyName="'Login'" FullSelectorArgument="&lt;webctrl tag='H1' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='H1' type='' class='page-header' aaname='                                                                                                                                                                                     Login                                                         ' check:innerText='Login' /&gt;" Guid="6dc7a43f-f961-4064-b3be-9e60838ebaf0" ImageBase64="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" InformativeScreenshot="ca73a8462965802f1db145bd38fa6057.png" ScopeSelectorArgument="&lt;html app='msedge.exe' title='ACME System 1 - Log In' /&gt;" SearchSteps="Selector" Version="V2" Visibility="Interactive" />
+      </uix:NCheckState.Target>
+    </uix:NCheckState>
+    <ui:Comment sap:VirtualizedContainerService.HintSize="494,75" sap2010:WorkflowViewState.IdRef="Comment_4" Text="// Si no está en la ventana de Login empieza a procesar los códigos de vendedores de la cola" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Search_Vendor_Invoice.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="494,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Search_Vendor_Invoice.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_VendorCode">
           <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_3">in_TransactionItem.SpecificContent["codeVendor"].ToString()</CSharpValue>
@@ -188,14 +210,23 @@
         </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Obtain_Data.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="510,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Obtain_Data.xaml">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Obtain_Data.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="494,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="Obtain_Data.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_Data">
-          <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_2">dt_Data</CSharpReference>
+          <CSharpReference x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpReference`1_12">dt_Data</CSharpReference>
         </OutArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_exInf">
+          <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_33">dt_exInf</CSharpValue>
+        </InArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+          <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_34">in_Config</CSharpValue>
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_VendorCode">
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_39">in_TransactionItem.SpecificContent["codeVendor"].ToString()</CSharpValue>
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Sum_Total.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="510,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Sum_Total.xaml">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Sum_Total.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="494,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Sum_Total.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_Data">
           <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_8">dt_Data</CSharpValue>
@@ -205,7 +236,7 @@
         </OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Write_Data.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="510,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Write_Data.xaml">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Write_Data.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="494,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Write_Data.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_Path">
           <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_9">in_Config["PathExcel"].ToString()</CSharpValue>
@@ -217,6 +248,12 @@
           <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_11">in_TransactionItem.SpecificContent["codeVendor"].ToString()</CSharpValue>
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="BreakTriggerScopeInArgument" />
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_exInf">
+          <CSharpValue x:TypeArguments="sd:DataTable" sap2010:WorkflowViewState.IdRef="CSharpValue`1_32">dt_exInf</CSharpValue>
+        </InArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+          <CSharpValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:WorkflowViewState.IdRef="CSharpValue`1_31">in_Config</CSharpValue>
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>
