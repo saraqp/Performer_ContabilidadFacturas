@@ -1,9 +1,9 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Reset_test_data" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Reset_test_data" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_URL" Type="InArgument(x:String)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
-  <sap:VirtualizedContainerService.HintSize>1092,1051</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1092,1893</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -37,6 +37,7 @@
       <x:String>UiPath.Platform.ObjectLibrary</x:String>
       <x:String>UiPath.Shared.Activities</x:String>
       <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -88,44 +89,100 @@
       <AssemblyReference>System.ComponentModel</AssemblyReference>
       <AssemblyReference>System.Memory</AssemblyReference>
       <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Reset_test_data" sap:VirtualizedContainerService.HintSize="476,986" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Reset_test_data" sap:VirtualizedContainerService.HintSize="528,1828" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:Comment sap:VirtualizedContainerService.HintSize="434,75" sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Limpiar el test data para que se muestren datos despues en el Invoice" />
-    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="Never" DisplayName="Use Browser Edge: ACME System 1 - Dashboard" sap:VirtualizedContainerService.HintSize="434,783" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" OpenMode="Never" ScopeGuid="67a8f774-0869-46d3-8876-48e8019ea1ef" Version="V2">
+    <ui:Comment sap:VirtualizedContainerService.HintSize="486,75" sap2010:WorkflowViewState.IdRef="Comment_1" Text="// Limpiar el test data para que se muestren datos despues en el Invoice" />
+    <uix:NApplicationCard AttachMode="ByInstance" CloseMode="Never" DisplayName="Use Browser Edge: ACME System 1 - Dashboard" sap:VirtualizedContainerService.HintSize="486,1625" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" OpenMode="Never" ScopeGuid="67a8f774-0869-46d3-8876-48e8019ea1ef" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,566" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="452,1408" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:Boolean" Name="exist" />
+            </Sequence.Variables>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <uix:NGoToUrl DisplayName="Go To URL" sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="NGoToUrl_1" Version="V3">
+            <uix:NGoToUrl DisplayName="Go To URL" sap:VirtualizedContainerService.HintSize="410,82" sap2010:WorkflowViewState.IdRef="NGoToUrl_1" Version="V3">
               <uix:NGoToUrl.Url>
                 <InArgument x:TypeArguments="x:String">
                   <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_1">in_URL</CSharpValue>
                 </InArgument>
               </uix:NGoToUrl.Url>
             </uix:NGoToUrl>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Reset Test Data'" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="67a8f774-0869-46d3-8876-48e8019ea1ef" Version="V3">
+            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Reset Test Data'" sap:VirtualizedContainerService.HintSize="410,157" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="67a8f774-0869-46d3-8876-48e8019ea1ef" Version="V3">
               <uix:NClick.Target>
                 <uix:TargetAnchorable BrowserURL="https://acme-test.uipath.com/reset-test-data" CvElementArea="439, 581, 127, 36" CvTextArea="453, 592, 101, 13" CvTextArgument="Reset Test Data" CvType="Button" DesignTimeRectangle="441, 582, 125, 34" DesignTimeScaleFactor="1" ElementType="Button" FriendlyName="'Reset Test Data'" FullSelectorArgument="&lt;webctrl id='buttonRTD' tag='BUTTON' /&gt;" FuzzySelectorArgument="&lt;webctrl id='buttonRTD' tag='BUTTON' type='button' class='btn btn-primary' aaname='Reset Test Data' check:innerText='Reset Test Data' /&gt;" Guid="42e2cc07-f949-4ce2-8b90-bf4ef02f297a" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAIEAAAAmCAYAAADjufgGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALsSURBVHhe7Zu/ThwxEMbzRJFCHok6Uoo0wFvwCkRpKNIlTWjuCWhOug4poqCAAio6xzNr747HY6+X24uO3W+kT4K1x54/v7Wv2Q8OtnoDBLAUgu3fJ3d6+cedfP3hPn75Di1M1FfqL/VZWg8BDdCkT99+upOzX+7z+W9oYaK+cn99nyUIPQRECE2wnKFlifpM/Y7WQ0B04ARYh6jP1O9oPQR0Z1gO0DJF/Y4GCFYqQAABAggQQF6AAAIEECCAvOaDYPMcvHPbbYz5B9DF9tW5+ztj7NbdvIRgTHt2V5lPoyjvlwd3YY15cUyWmXGWVc5tf80LgVUMhuPV3Vyr5wdQa6FmLWgLBNleAcoJMbxvCELCj9vb4RmDMVh6Uty5XXjOphMv+HKRolWaQrILWtu3MJbEYp8m5eZ1a8rcr+67lXoLfmZu1w/uMTzq7O0v2v+HgAsnCsbJxAQ0MFN829+WfJ5uiNy3IabJJ0EnanpchwGQ6wTAEsjjOgEAHe8Y/CUdHgJOJm2ypJ80JKgLLjXmWy+4lJ5n+nGhCbhaTF57QFCPNwVzLDcePwoITJPHlDpWpcUE5TpJUuO+Y4WK0vOyY7i3cOoUYwpjM0LAz4TVIVA1OQoIrKYlgad0VyXvPF5j3LdWcCk9jyFo8Mtj8s/2gEBeB0Pz43WX5puuMzQ/8T8+CLxC0YajdORotcRvYcOx7FUruJSeN7mAfUzh7zdBIJtsXXUVCIw9J+cgdFgIvDg4b32CXEB5Rcjm5o1O3tKqb63gqfJ5XcHlvkNRG2KaDEG35vBc7xHGvRUh6E+M+L+3Y4WA1N256le8MFng5MglU2u2+YoCGTIbU9u3GlM8miWcg3S80ZK4SWqP3UaBonLrahqM4slekHbNBwH0bgUIIEAAAQLICxBAgAACBJAXIIBsCPAZ2npU/AwNH6SuR8UPUvFp+vJFfeX++j6bn6aT0QARQpPozoCWJeor9VcCQJZAAFunAYLVm3P/AA1v0onJVg7kAAAAAElFTkSuQmCC" InformativeScreenshot="d09493853d88addfbe7db9288c74d1ea.png" ScopeSelectorArgument="&lt;html app='msedge.exe' title='ACME System 1 - Reset Test Data' /&gt;" SearchSteps="Selector" Version="V2" Visibility="Interactive" />
               </uix:NClick.Target>
             </uix:NClick>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Home'" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="67a8f774-0869-46d3-8876-48e8019ea1ef" Version="V3">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="https://acme-test.uipath.com/reset-test-data" CvElementArea="379, 236, 1133, 38" CvTextArea="385, 250, 222, 13" CvTextArgument="Home / Account - Reset Test Data" CvType="InputBox" DesignTimeRectangle="386, 249, 37, 16" DesignTimeScaleFactor="1" ElementType="Text" FriendlyName="'Home'" FullSelectorArgument="&lt;webctrl aaname='Home' href='https://acme-test.uipath.com/home' tag='A' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='Home' href='https://acme-test.uipath.com/home' tag='A' type='' class='' check:innerText='Home' /&gt;" Guid="6c28fa7a-4119-4680-b58c-13875e1c11ef" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAACkAAAAUCAYAAAAQhBSFAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD5SURBVEhL7ZM7DoMwDEB7Jy7TmyD1DByAhUOwwMQIKxsSCysnyOw2HydOYqmNlFaoyvCkJA7m2UluQgi4OkUyF0UyF05ymaFqVthIUHNC24xw789g/Xf8saTc+xgNE7SH27/1E1TdDkOH8RHqxazjN6+4zWXy2xjjkC6pBIlYMEcZKUbnVuxY4W73xw1QxXlFhJJYDYNOxB89TaykaLGelETnUEWwjdmhDk4nsZMygesSgkdsx5HkDAPOiaTtcsTVJNl/+iRK0rHb8/64eUl9xWiM5zsP51NJM/YeCiOeLilRifj7kyYp0VfI5Ys76yQvTJHMRZHMg4AnsU24X04LKDIAAAAASUVORK5CYII=" InformativeScreenshot="4a7e7a93252bead2b1362c643b9a1a5f.png" ScopeSelectorArgument="&lt;html app='msedge.exe' title='ACME System 1 - Reset Test Data' /&gt;" SearchSteps="Selector" Version="V2" Visibility="Interactive" />
-              </uix:NClick.Target>
-            </uix:NClick>
+            <ui:Comment sap:VirtualizedContainerService.HintSize="410,75" sap2010:WorkflowViewState.IdRef="Comment_2" Text="// Esperamos unos segundos para que de tiempo a que se reseteen los datos" />
+            <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="410,90" sap2010:WorkflowViewState.IdRef="Delay_2" />
+            <ui:UiElementExists DisplayName="Element Exists 'dialog acme-test.uipath...'" sap:VirtualizedContainerService.HintSize="410,107" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+              <ui:UiElementExists.Exists>
+                <OutArgument x:TypeArguments="x:Boolean">
+                  <CSharpReference x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpReference`1_1">exist</CSharpReference>
+                </OutArgument>
+              </ui:UiElementExists.Exists>
+              <ui:UiElementExists.Target>
+                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="fa802f60-fae8-49fe-8be1-281a685bd16d" InformativeScreenshot="c5f4ef2eb08aa397589d98f3b1a3d35c" Selector="&lt;wnd app='msedge.exe' cls='Chrome_WidgetWin_1' title='ACME System 1 - Reset Test Data - Personal: Microsoft​ Edge' /&gt;&lt;ctrl name='acme-test.uipath.com dice' role='dialog' /&gt;">
+                  <ui:Target.TimeoutMS>
+                    <InArgument x:TypeArguments="x:Int32" />
+                  </ui:Target.TimeoutMS>
+                  <ui:Target.WaitForReady>
+                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                  </ui:Target.WaitForReady>
+                </ui:Target>
+              </ui:UiElementExists.Target>
+            </ui:UiElementExists>
+            <If sap:VirtualizedContainerService.HintSize="410,605" sap2010:WorkflowViewState.IdRef="If_1">
+              <If.Condition>
+                <InArgument x:TypeArguments="x:Boolean">
+                  <CSharpValue x:TypeArguments="x:Boolean" sap2010:WorkflowViewState.IdRef="CSharpValue`1_2">exist</CSharpValue>
+                </InArgument>
+              </If.Condition>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'push button Aceptar'" sap:VirtualizedContainerService.HintSize="334,157" sap2010:WorkflowViewState.IdRef="NClick_4" InteractionMode="HardwareEvents" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="67a8f774-0869-46d3-8876-48e8019ea1ef" Version="V3">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable DesignTimeRectangle="1073, 152, 75, 32" DesignTimeScaleFactor="1" ElementType="Button" FriendlyName="'push button Aceptar'" FullSelectorArgument="&lt;ctrl name='acme-test.uipath.com dice' role='dialog' /&gt;&lt;ctrl name='Aceptar' role='push button' /&gt;" FuzzySelectorArgument="&lt;ctrl name='acme-test.uipath.com dice' role='dialog' /&gt;&lt;ctrl name='Aceptar' role='push button' automationid='' /&gt;" Guid="6f01d806-5fd3-4ee0-80f7-1f1d63e5b11f" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAAE8AAAAkCAYAAADIB2cfAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIeSURBVGhD7ZpBahRBFIbnNjlCruElcgXJCVy5NAeIOxe6FFy5EXcigWwMBAwyIAxDIjKGJGKFr+Ubmqaik9fVMAPvh5/pqvequt9XVR0CPSupsBLeCK3hvTr5Ufaen5XZ4Wn6AcMHTmoNL8FtZjipNbxaYrpulfACVgkvYJXwAlYJL2CV8AJWCS9glfACVgkvYDUJvOXqd/l1+6fsH51X47tu1Rzes/eLDh5+8XFZzWlh71OLTW3VHN6Hr6vy7uxn58/z62pOC785/fsPei02tVVzeBzXg9fzzqh/dJ++/V6+Xd11/eyaJy8vun5AMA59Wdx0Y8hFx58uu1xkTHCKXOZybsTieU/b3IOxPk/Uqim84VHqH12K4+HZmQCgGAojLkj6AUSORdMmRrtf/HDnkcOCce3CMcZ5OAX9hRxj1RQeRQ/l0WUHIXMphCKBMxR9Fs2vY+jHXA/hMR/378/Xh8fCmjvWqhk8Hp6dASQfWmDEhsXqPpC+LZpf+/4Fj0Uixg6kjXwOr80da9UMHsevNo9APUocV2CST0ECtjj7LNrjZtvXgPCI0Qacu9wYYxzHL7EWVs3gufK1fl7kXPtORL7n6PdljsgFtEVzFI35RwCT41zkMjd52IXcGXitPUXRrawSXsAq4QWsthbeNlslvIBVwgtYJbyAVcILWCW8gFXCC1it4eWHPpu5+qFPfmL2f8On+olZ6vFKeGGVcg8RJXlT0DODKgAAAABJRU5ErkJggg==" InformativeScreenshot="6192ac1074cc95b2721f501f09315f09.png" ScopeSelectorArgument="&lt;wnd app='msedge.exe' cls='Chrome_WidgetWin_1' title='ACME System 1 - Reset Test Data - Personal: Microsoft​ Edge' /&gt;" SearchSteps="Selector" Version="V2" Visibility="Interactive" />
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,178" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Throw sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_1">
+                    <InArgument x:TypeArguments="s:Exception">
+                      <CSharpValue x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="CSharpValue`1_3">new SystemException("Error al limpiar el test data")</CSharpValue>
+                    </InArgument>
+                  </Throw>
+                </Sequence>
+              </If.Else>
+            </If>
           </Sequence>
         </ActivityAction>
       </uix:NApplicationCard.Body>
