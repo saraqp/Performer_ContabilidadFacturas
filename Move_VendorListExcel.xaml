@@ -4,7 +4,7 @@
     <x:Property Name="in_filePath" Type="InArgument(x:String)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
-  <sap:VirtualizedContainerService.HintSize>1158,641</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1524,572</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -68,23 +68,23 @@
       <AssemblyReference>UiPath.Workflow</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Move_VendorListExcel" sap:VirtualizedContainerService.HintSize="376,247" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Move_VendorListExcel" sap:VirtualizedContainerService.HintSize="376,242" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:MoveFile ContinueOnError="{x:Null}" DestinationResource="{x:Null}" PathResource="{x:Null}" DisplayName="Move File" sap:VirtualizedContainerService.HintSize="334,159" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="True">
-      <ui:MoveFile.Destination>
+    <ui:CopyFile ContinueOnError="{x:Null}" DisplayName="Copy File" sap:VirtualizedContainerService.HintSize="334,154" sap2010:WorkflowViewState.IdRef="CopyFile_1" Overwrite="True">
+      <ui:CopyFile.Destination>
         <InArgument x:TypeArguments="x:String">
-          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_2">in_destinationPath</CSharpValue>
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_4">in_destinationPath</CSharpValue>
         </InArgument>
-      </ui:MoveFile.Destination>
-      <ui:MoveFile.Path>
+      </ui:CopyFile.Destination>
+      <ui:CopyFile.Path>
         <InArgument x:TypeArguments="x:String">
-          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_1">in_filePath</CSharpValue>
+          <CSharpValue x:TypeArguments="x:String" sap2010:WorkflowViewState.IdRef="CSharpValue`1_3">in_filePath</CSharpValue>
         </InArgument>
-      </ui:MoveFile.Path>
-    </ui:MoveFile>
+      </ui:CopyFile.Path>
+    </ui:CopyFile>
   </Sequence>
 </Activity>
